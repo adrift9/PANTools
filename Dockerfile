@@ -1,10 +1,12 @@
 FROM php:8.2-apache
 
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         git \
         python3 \
         python3-pip \
+        python3-venv \
         unzip \
     && rm -rf /var/lib/apt/lists/*
 
