@@ -31,3 +31,5 @@ RUN echo "max_execution_time = 600" > /usr/local/etc/php/conf.d/timeout_custom.i
     echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/timeout_custom.ini && \
     echo "error_reporting = E_ALL & ~E_NOTICE" >> /usr/local/etc/php/conf.d/timeout_custom.ini && \
     echo "max_input_vars = 20000" >> /usr/local/etc/php/conf.d/timeout_custom.ini
+COPY ./www/ /var/www/html/
+RUN chown -R www-data:www-data /var/www/html
