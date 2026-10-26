@@ -8,8 +8,10 @@ RUN apt-get update && \
         unzip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --no-cache-dir --break-system-packages demisto-sdk
-
+RUN python3 -m venv /opt/demisto-venv
+RUN /opt/demisto-venv/bin/pip install --no-cache-dir --upgrade pip setuptools wheel && \
+    /opt/demisto-venv/bin/pip install --no-cache-dir demisto-sdk
+    
 ENV HOME=/tmp
 
 RUN mkdir -p /tmp/.demisto-sdk && \
