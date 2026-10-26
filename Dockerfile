@@ -1,6 +1,6 @@
-FROM php:8.0-apache
+FROM php:8.2-apache
 
-RUN apt-get update --fix-missing && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         git \
         python3 \
@@ -8,19 +8,18 @@ RUN apt-get update --fix-missing && \
         unzip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --no-cache-dir demisto-sdk
+RUN pip3 install --no-cache-dir --break-system-packages demisto-sdk
 
-# HOME global + carpeta SDK en /tmp
 ENV HOME=/tmp
-RUN mkdir -p /tmp/.demisto-sdk && chmod -R 777 /tmp/.demisto-sdk
 
-# También crea la carpeta donde a veces intenta escribir (por si HOME no aplica)
-RUN mkdir -p /var/www/.demisto-sdk && chown -R www-data:www-data /var/www/.demisto-sdk
+RUN mkdir -p /tmp/.demisto-sdk && \
+    chmod -R 777 /tmp/.demisto-sdk
 
-# Permisos para Apache
+RUN mkdir -p /var/www/.demisto-sdk && \
+    chown -R www-data:www-data /var/www/.demisto-sdk
+
 RUN chown -R www-data:www-data /var/www/html
 
-# PHP limits (OJO con los && \)
 RUN echo "max_execution_time = 600" > /usr/local/etc/php/conf.d/timeout_custom.ini && \
     echo "upload_max_filesize = 500M" >> /usr/local/etc/php/conf.d/timeout_custom.ini && \
     echo "post_max_size = 500M" >> /usr/local/etc/php/conf.d/timeout_custom.ini && \
