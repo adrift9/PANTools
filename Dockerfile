@@ -11,7 +11,8 @@ RUN apt-get update && \
 RUN python3 -m venv /opt/demisto-venv
 RUN /opt/demisto-venv/bin/pip install --no-cache-dir --upgrade pip setuptools wheel && \
     /opt/demisto-venv/bin/pip install --no-cache-dir demisto-sdk
-    
+ENV PATH="/opt/demisto-venv/bin:${PATH}"
+
 ENV HOME=/tmp
 
 RUN mkdir -p /tmp/.demisto-sdk && \
